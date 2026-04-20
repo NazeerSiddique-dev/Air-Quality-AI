@@ -1,0 +1,64 @@
+{
+  "regression": {
+    "features": [
+      "PT08.S2(NMHC)",
+      "NOx(GT)",
+      "NO2(GT)",
+      "T",
+      "RH",
+      "AH"
+    ],
+    "target": "C6H6(GT)",
+    "mse": 1.733,
+    "r2": 0.9684,
+    "coef": {
+      "PT08.S2(NMHC)": 7.2502,
+      "NOx(GT)": 0.616,
+      "NO2(GT)": -0.7146,
+      "T": -0.6129,
+      "RH": -0.3591,
+      "AH": 0.2083
+    },
+    "intercept": 10.0768
+  },
+  "classification": {
+    "features": [
+      "PT08.S1(CO)",
+      "NO2(GT)",
+      "T",
+      "RH"
+    ],
+    "target": "High_CO (binary)",
+    "median_co": 2.1527,
+    "accuracy": 0.8916,
+    "classes": {
+      "0": "Low CO",
+      "1": "High CO"
+    }
+  },
+  "clustering": {
+    "features": [
+      "CO(GT)",
+      "PT08.S1(CO)",
+      "C6H6(GT)",
+      "NOx(GT)",
+      "NO2(GT)",
+      "T",
+      "RH"
+    ],
+    "k": 4,
+    "internal_label_map": {
+      "0": 0,
+      "3": 1,
+      "2": 2,
+      "1": 3
+    },
+    "cluster_labels": {
+      "0": "Clean",
+      "1": "Moderate",
+      "2": "High",
+      "3": "Severe"
+    },
+    "inertia": 29223.24
+  }
+}

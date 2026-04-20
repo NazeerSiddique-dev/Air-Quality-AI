@@ -1,0 +1,36 @@
+
+══════════════════════════════════════════════════════════════
+        AIR QUALITY SPARK ML PIPELINE – RUN REPORT
+══════════════════════════════════════════════════════════════
+  Generated : 2026-04-18 21:59:43
+  Run at    : 2026-04-18T21:23:57
+  Mode      : LOCAL
+
+  DATASET SUMMARY
+  ──────────────────────────────────────────────────────────
+  Total rows            : 9471
+  Training rows         : 7645
+  Test rows             : 1826
+  Target variable       : CO_GT
+  Cross-val folds       : 3
+  Feature count         : 13
+  Features              : PT08_S1_CO, C6H6_GT, PT08_S2_NMHC, NOx_GT, PT08_S3_NOx, NO2_GT, PT08_S4_NO2, PT08_S5_O3, T, RH, AH, Hour, IsRushHour
+
+  MODEL PERFORMANCE COMPARISON
+  ──────────────────────────────────────────────────────────
+  Metric        Linear Regression    Random Forest  Winner
+  ───────────────────────────────────────────────────────
+  RMSE                     0.5936           0.4921  RF ✓
+  MAE                      0.3997           0.3174  RF ✓
+  R2                       0.7969           0.8604  RF ✓
+  Train (s)                  11.2             62.5
+
+  🏆  WINNER: Random Forest
+  ⏱   Total pipeline time: 86.3s
+
+  LOG FILES
+  ──────────────────────────────────────────────────────────
+  preprocess_run.log                           9807 B  2026-04-18 21:22
+  train_run.log                               12639 B  2026-04-18 21:23
+
+══════════════════════════════════════════════════════════════

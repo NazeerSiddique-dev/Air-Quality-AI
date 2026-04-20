@@ -1,0 +1,152 @@
+26/04/18 21:22:34 WARN Utils: Your hostname, nazeer-Latitude-5490 resolves to a loopback address: 127.0.1.1; using 10.179.167.65 instead (on interface wlp2s0)
+26/04/18 21:22:34 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+26/04/18 21:22:35 INFO SparkContext: Running Spark version 3.5.1
+26/04/18 21:22:35 INFO SparkContext: OS info Linux, 6.17.0-20-generic, amd64
+26/04/18 21:22:35 INFO SparkContext: Java version 11.0.30
+26/04/18 21:22:35 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/04/18 21:22:35 INFO ResourceUtils: ==============================================================
+26/04/18 21:22:35 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/04/18 21:22:35 INFO ResourceUtils: ==============================================================
+26/04/18 21:22:35 INFO SparkContext: Submitted application: AirQuality-ML-Pipeline
+26/04/18 21:22:36 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/04/18 21:22:36 INFO ResourceProfile: Limiting resource is cpu
+26/04/18 21:22:36 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/04/18 21:22:36 INFO SecurityManager: Changing view acls to: nazeer
+26/04/18 21:22:36 INFO SecurityManager: Changing modify acls to: nazeer
+26/04/18 21:22:36 INFO SecurityManager: Changing view acls groups to: 
+26/04/18 21:22:36 INFO SecurityManager: Changing modify acls groups to: 
+26/04/18 21:22:36 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: nazeer; groups with view permissions: EMPTY; users with modify permissions: nazeer; groups with modify permissions: EMPTY
+26/04/18 21:22:36 INFO Utils: Successfully started service 'sparkDriver' on port 41125.
+26/04/18 21:22:36 INFO SparkEnv: Registering MapOutputTracker
+26/04/18 21:22:36 INFO SparkEnv: Registering BlockManagerMaster
+26/04/18 21:22:36 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/04/18 21:22:36 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/04/18 21:22:36 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/04/18 21:22:36 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-d83a120a-43ac-49fa-b93a-7521ce55c24b
+26/04/18 21:22:36 INFO MemoryStore: MemoryStore started with capacity 1048.8 MiB
+26/04/18 21:22:36 INFO SparkEnv: Registering OutputCommitCoordinator
+26/04/18 21:22:36 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/04/18 21:22:36 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/04/18 21:22:36 INFO Executor: Starting executor ID driver on host 10.179.167.65
+26/04/18 21:22:36 INFO Executor: OS info Linux, 6.17.0-20-generic, amd64
+26/04/18 21:22:36 INFO Executor: Java version 11.0.30
+26/04/18 21:22:36 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/04/18 21:22:36 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@8abff84 for default.
+26/04/18 21:22:36 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 41973.
+26/04/18 21:22:36 INFO NettyBlockTransferService: Server created on 10.179.167.65:41973
+26/04/18 21:22:36 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/04/18 21:22:36 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 10.179.167.65, 41973, None)
+26/04/18 21:22:36 INFO BlockManagerMasterEndpoint: Registering block manager 10.179.167.65:41973 with 1048.8 MiB RAM, BlockManagerId(driver, 10.179.167.65, 41973, None)
+26/04/18 21:22:36 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 10.179.167.65, 41973, None)
+26/04/18 21:22:36 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 10.179.167.65, 41973, None)
+2026-04-18 21:22:37  [INFO]  Loading cleaned Parquet data from: /home/nazeer/DDM/hadoop_work/spark_pipeline/output/cleaned_data
+2026-04-18 21:22:41  [INFO]  Loaded 9471 rows.
+root
+ |-- Date: string (nullable = true)
+ |-- Time: string (nullable = true)
+ |-- CO_GT: double (nullable = true)
+ |-- PT08_S1_CO: double (nullable = true)
+ |-- C6H6_GT: double (nullable = true)
+ |-- PT08_S2_NMHC: double (nullable = true)
+ |-- NOx_GT: double (nullable = true)
+ |-- PT08_S3_NOx: double (nullable = true)
+ |-- NO2_GT: double (nullable = true)
+ |-- PT08_S4_NO2: double (nullable = true)
+ |-- PT08_S5_O3: double (nullable = true)
+ |-- T: double (nullable = true)
+ |-- RH: double (nullable = true)
+ |-- AH: double (nullable = true)
+ |-- _c15: string (nullable = true)
+ |-- _c16: string (nullable = true)
+ |-- Hour: integer (nullable = true)
+ |-- IsRushHour: integer (nullable = true)
+
+2026-04-18 21:22:41  [INFO]  Feature columns selected (13): ['PT08_S1_CO', 'C6H6_GT', 'PT08_S2_NMHC', 'NOx_GT', 'PT08_S3_NOx', 'NO2_GT', 'PT08_S4_NO2', 'PT08_S5_O3', 'T', 'RH', 'AH', 'Hour', 'IsRushHour']
+2026-04-18 21:22:42  [INFO]  Train rows: 7645  |  Test rows: 1826
+2026-04-18 21:22:42  [INFO]  ── Training MODEL A: Linear Regression ──
+2026-04-18 21:22:42  [INFO]  Starting 3-fold Cross-Validation …
+26/04/18 21:22:43 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
+26/04/18 21:22:44 WARN BlockManager: Block rdd_27_0 already exists on this machine; not re-adding it
+2026-04-18 21:22:53  [INFO]  Closing down clientserver connection
+2026-04-18 21:22:53  [INFO]  Closing down clientserver connection
+2026-04-18 21:22:53  [INFO]  Closing down clientserver connection
+2026-04-18 21:22:53  [INFO]  CV average RMSE values per param combo: ['0.5900', '0.5929', '0.5994', '0.6146']
+2026-04-18 21:22:53  [INFO]  ── Evaluating Linear Regression on Test Set ──
+2026-04-18 21:22:54  [INFO]    RMSE : 0.5936
+2026-04-18 21:22:54  [INFO]    MAE  : 0.3997
+2026-04-18 21:22:54  [INFO]    R²   : 0.7969
+2026-04-18 21:22:55  [INFO]  ✅ Linear Regression model saved to: /home/nazeer/DDM/hadoop_work/spark_pipeline/models/linear_regression
+2026-04-18 21:22:55  [INFO]  ── Training MODEL B: Random Forest Regressor ──
+2026-04-18 21:22:55  [INFO]  Starting 3-fold Cross-Validation …
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.apache.spark.util.SizeEstimator$ (file:/home/nazeer/spark/jars/spark-core_2.12-3.5.1.jar) to field java.nio.charset.Charset.name
+WARNING: Please consider reporting this to the maintainers of org.apache.spark.util.SizeEstimator$
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+26/04/18 21:22:58 WARN DAGScheduler: Broadcasting large task binary with size 1050.7 KiB
+26/04/18 21:22:59 WARN DAGScheduler: Broadcasting large task binary with size 1896.7 KiB
+26/04/18 21:23:00 WARN DAGScheduler: Broadcasting large task binary with size 3.2 MiB
+26/04/18 21:23:02 WARN DAGScheduler: Broadcasting large task binary with size 5.3 MiB
+26/04/18 21:23:02 WARN DAGScheduler: Broadcasting large task binary with size 1169.7 KiB
+26/04/18 21:23:02 WARN DAGScheduler: Broadcasting large task binary with size 1066.9 KiB
+26/04/18 21:23:03 WARN DAGScheduler: Broadcasting large task binary with size 1974.2 KiB
+26/04/18 21:23:04 WARN DAGScheduler: Broadcasting large task binary with size 3.6 MiB
+26/04/18 21:23:06 WARN DAGScheduler: Broadcasting large task binary with size 6.3 MiB
+26/04/18 21:23:07 WARN DAGScheduler: Broadcasting large task binary with size 1613.9 KiB
+26/04/18 21:23:09 WARN DAGScheduler: Broadcasting large task binary with size 10.4 MiB
+26/04/18 21:23:10 WARN DAGScheduler: Broadcasting large task binary with size 2.3 MiB
+26/04/18 21:23:15 WARN DAGScheduler: Broadcasting large task binary with size 1042.6 KiB
+26/04/18 21:23:15 WARN DAGScheduler: Broadcasting large task binary with size 1861.3 KiB
+26/04/18 21:23:16 WARN DAGScheduler: Broadcasting large task binary with size 3.1 MiB
+26/04/18 21:23:18 WARN DAGScheduler: Broadcasting large task binary with size 5.0 MiB
+26/04/18 21:23:18 WARN DAGScheduler: Broadcasting large task binary with size 1100.5 KiB
+26/04/18 21:23:19 WARN DAGScheduler: Broadcasting large task binary with size 1066.8 KiB
+26/04/18 21:23:19 WARN DAGScheduler: Broadcasting large task binary with size 1969.4 KiB
+26/04/18 21:23:20 WARN DAGScheduler: Broadcasting large task binary with size 3.5 MiB
+26/04/18 21:23:22 WARN DAGScheduler: Broadcasting large task binary with size 6.2 MiB
+26/04/18 21:23:23 WARN DAGScheduler: Broadcasting large task binary with size 1561.8 KiB
+26/04/18 21:23:24 WARN DAGScheduler: Broadcasting large task binary with size 10.1 MiB
+26/04/18 21:23:25 WARN DAGScheduler: Broadcasting large task binary with size 2.2 MiB
+26/04/18 21:23:29 WARN DAGScheduler: Broadcasting large task binary with size 1036.9 KiB
+26/04/18 21:23:30 WARN DAGScheduler: Broadcasting large task binary with size 1859.6 KiB
+26/04/18 21:23:31 WARN DAGScheduler: Broadcasting large task binary with size 3.1 MiB
+26/04/18 21:23:32 WARN DAGScheduler: Broadcasting large task binary with size 5.1 MiB
+26/04/18 21:23:32 WARN DAGScheduler: Broadcasting large task binary with size 1116.3 KiB
+26/04/18 21:23:33 WARN DAGScheduler: Broadcasting large task binary with size 1062.4 KiB
+26/04/18 21:23:33 WARN DAGScheduler: Broadcasting large task binary with size 1958.0 KiB
+26/04/18 21:23:34 WARN DAGScheduler: Broadcasting large task binary with size 3.5 MiB
+26/04/18 21:23:36 WARN DAGScheduler: Broadcasting large task binary with size 6.2 MiB
+26/04/18 21:23:37 WARN DAGScheduler: Broadcasting large task binary with size 1563.3 KiB
+26/04/18 21:23:38 WARN DAGScheduler: Broadcasting large task binary with size 10.2 MiB
+26/04/18 21:23:40 WARN DAGScheduler: Broadcasting large task binary with size 2.2 MiB
+26/04/18 21:23:44 WARN DAGScheduler: Broadcasting large task binary with size 1054.2 KiB
+26/04/18 21:23:45 WARN DAGScheduler: Broadcasting large task binary with size 1973.3 KiB
+26/04/18 21:23:46 WARN DAGScheduler: Broadcasting large task binary with size 3.6 MiB
+26/04/18 21:23:47 WARN DAGScheduler: Broadcasting large task binary with size 1048.0 KiB
+26/04/18 21:23:48 WARN DAGScheduler: Broadcasting large task binary with size 6.5 MiB
+26/04/18 21:23:50 WARN DAGScheduler: Broadcasting large task binary with size 1748.6 KiB
+26/04/18 21:23:52 WARN DAGScheduler: Broadcasting large task binary with size 11.1 MiB
+26/04/18 21:23:53 WARN DAGScheduler: Broadcasting large task binary with size 2.6 MiB
+2026-04-18 21:23:55  [INFO]  Closing down clientserver connection
+2026-04-18 21:23:55  [INFO]  Closing down clientserver connection
+2026-04-18 21:23:55  [INFO]  Closing down clientserver connection
+2026-04-18 21:23:55  [INFO]  CV average RMSE values per param combo: ['0.5499', '0.4850', '0.5493', '0.4817']
+2026-04-18 21:23:55  [INFO]  ── Evaluating Random Forest on Test Set ──
+2026-04-18 21:23:56  [INFO]    RMSE : 0.4921
+2026-04-18 21:23:56  [INFO]    MAE  : 0.3174
+2026-04-18 21:23:56  [INFO]    R²   : 0.8604
+26/04/18 21:23:56 WARN TaskSetManager: Stage 436 contains a task of very large size (1169 KiB). The maximum recommended task size is 1000 KiB.
+2026-04-18 21:23:57  [INFO]  ✅ Random Forest model saved to: /home/nazeer/DDM/hadoop_work/spark_pipeline/models/random_forest
+2026-04-18 21:23:57  [INFO]  
+=======================================================
+2026-04-18 21:23:57  [INFO]                 MODEL COMPARISON SUMMARY
+2026-04-18 21:23:57  [INFO]  =======================================================
+2026-04-18 21:23:57  [INFO]  Metric        LinearReg   RandomForest
+2026-04-18 21:23:57  [INFO]  ----------------------------------------
+2026-04-18 21:23:57  [INFO]  RMSE             0.5936         0.4921
+2026-04-18 21:23:57  [INFO]  MAE              0.3997         0.3174
+2026-04-18 21:23:57  [INFO]  R2               0.7969         0.8604
+2026-04-18 21:23:57  [INFO]  =======================================================
+2026-04-18 21:23:57  [INFO]  🏆  Best model by RMSE: Random Forest
+2026-04-18 21:23:57  [INFO]  =======================================================
+2026-04-18 21:23:58  [INFO]  Closing down clientserver connection

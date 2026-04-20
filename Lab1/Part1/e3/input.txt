@@ -1,0 +1,11 @@
+Name: Alice
+Email: alice@gmail.com
+Phone: 9876543210
+
+Name: Bob
+Email: bob@yahoo.com
+Phone: 9123456780
+
+Name: Charlie
+Email: charlie@hotmail.com
+Phone: 9988776655

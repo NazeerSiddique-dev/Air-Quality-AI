@@ -1,0 +1,18 @@
+{
+  "run_timestamp": "2026-04-18T21:23:57",
+  "mode": "local",
+  "dataset": {
+    "total_rows": 9471,
+    "train_rows": 7645,
+    "test_rows": 1826,
+    "features": ["PT08_S1_CO","C6H6_GT","PT08_S2_NMHC","NOx_GT","PT08_S3_NOx","NO2_GT","PT08_S4_NO2","PT08_S5_O3","T","RH","AH","Hour","IsRushHour"],
+    "target": "CO_GT",
+    "cv_folds": 3
+  },
+  "models": {
+    "LinearRegression":      {"rmse": 0.5936, "mae": 0.3997, "r2": 0.7969, "train_time_sec": 11.2},
+    "RandomForestRegressor": {"rmse": 0.4921, "mae": 0.3174, "r2": 0.8604, "train_time_sec": 62.5}
+  },
+  "winner": "Random Forest",
+  "total_pipeline_time_sec": 86.3
+}

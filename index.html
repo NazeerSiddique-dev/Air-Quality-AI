@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Air Quality Intelligence — Data Science Lab Report</title>
+  <meta name="description" content="An interactive data science portfolio showcasing machine learning analysis of the UCI Air Quality dataset — regression, classification, clustering, and NLP." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="logo-dot"></span>
+        <span>AirQuality<span class="accent">·AI</span></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#hero">Overview</a></li>
+        <li><a href="#live">🔴 Live</a></li>
+        <li><a href="#labs-directory">Lab Work</a></li>
+        <li><a href="#theory">Theory</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-visual">
+      <div class="v-line"></div>
+      <div class="v-line"></div>
+      <div class="v-line"></div>
+    </div>
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-orb orb3"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Distributed Data Management</div>
+      <h1 class="hero-title">Air Quality<br/><span class="gradient-text">Intelligence</span></h1>
+      <p class="hero-subtitle">A complete machine learning pipeline applied to the UCI Air Quality dataset — uncovering pollution patterns through EDA, regression, classification, clustering &amp; NLP.</p>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num" data-target="9357">0</span>
+          <span class="stat-label">Hourly Records</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" data-target="15">0</span>
+          <span class="stat-label">Sensor Features</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" data-target="5">0</span>
+          <span class="stat-label">ML Modules</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" data-target="9">0</span>
+          <span class="stat-label">Visualizations</span>
+        </div>
+      </div>
+      <a href="#labs-directory" class="hero-cta">Explore Lab Work ↓</a>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-dot"></div>
+    </div>
+  </section>
+
+  <!-- LIVE AIR QUALITY MONITOR -->
+  <section id="live" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="tag" style="--tag-clr:#f472b6">🌍 Real-Time</span>
+        <h2>Live Air Quality Monitor</h2>
+        <p>Search any city worldwide — we fetch live pollutant data and run your lab's ML models on it instantly.</p>
+      </div>
+
+      <div class="live-search reveal">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="city-input" placeholder="Try: Delhi, London, Tokyo, New York..." autocomplete="off" />
+          <button id="search-btn">Analyze</button>
+          <button id="locate-btn" title="Use my location">📍 My Location</button>
+        </div>
+        <div class="quick-cities">
+          <span class="qc-label">Quick:</span>
+          <button class="qc-btn" data-city="Delhi">Delhi</button>
+          <button class="qc-btn" data-city="London">London</button>
+          <button class="qc-btn" data-city="Beijing">Beijing</button>
+          <button class="qc-btn" data-city="Los Angeles">Los Angeles</button>
+          <button class="qc-btn" data-city="Mumbai">Mumbai</button>
+        </div>
+      </div>
+
+      <div id="live-loading" class="live-loading hidden">
+        <div class="loader-ring"></div>
+        <p>Fetching live air quality data...</p>
+      </div>
+
+      <div id="live-error" class="live-error hidden">
+        <div>⚠️</div>
+        <p id="error-msg">City not found. Please try another name.</p>
+      </div>
+
+      <div id="live-panel" class="live-panel hidden">
+        <div class="live-header">
+          <div>
+            <h3 id="live-city-name" class="live-city">—</h3>
+            <p id="live-updated" class="live-time">—</p>
+          </div>
+          <button id="refresh-btn" class="refresh-btn">↻ Refresh</button>
+        </div>
+
+        <div class="live-main">
+          <div class="gauge-wrap">
+            <canvas id="aqi-gauge" width="260" height="150"></canvas>
+            <div class="gauge-center">
+              <span id="aqi-value" class="aqi-num">—</span>
+              <span class="aqi-lbl">EU AQI</span>
+            </div>
+            <div id="aqi-category" class="aqi-cat">—</div>
+          </div>
+
+          <div class="pollutant-grid">
+            <div class="poll-card">
+              <div class="poll-name">CO</div>
+              <div class="poll-val" id="val-co">—</div>
+              <div class="poll-unit">μg/m³</div>
+              <div class="poll-bar"><div class="poll-fill" id="bar-co" style="--pct:0%;--clr:#38bdf8"></div></div>
+            </div>
+            <div class="poll-card">
+              <div class="poll-name">NO₂</div>
+              <div class="poll-val" id="val-no2">—</div>
+              <div class="poll-unit">μg/m³</div>
+              <div class="poll-bar"><div class="poll-fill" id="bar-no2" style="--pct:0%;--clr:#a78bfa"></div></div>
+            </div>
+            <div class="poll-card">
+              <div class="poll-name">PM2.5</div>
+              <div class="poll-val" id="val-pm25">—</div>
+              <div class="poll-unit">μg/m³</div>
+              <div class="poll-bar"><div class="poll-fill" id="bar-pm25" style="--pct:0%;--clr:#fb923c"></div></div>
+            </div>
+            <div class="poll-card">
+              <div class="poll-name">PM10</div>
+              <div class="poll-val" id="val-pm10">—</div>
+              <div class="poll-unit">μg/m³</div>
+              <div class="poll-bar"><div class="poll-fill" id="bar-pm10" style="--pct:0%;--clr:#facc15"></div></div>
+            </div>
+            <div class="poll-card">
+              <div class="poll-name">O₃</div>
+              <div class="poll-val" id="val-o3">—</div>
+              <div class="poll-unit">μg/m³</div>
+              <div class="poll-bar"><div class="poll-fill" id="bar-o3" style="--pct:0%;--clr:#34d399"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ml-panel">
+          <div class="ml-panel-title">🤖 Lab ML Models Applied to Live Data <span class="ml-badge">Real-Time Inference</span></div>
+          <div class="ml-results">
+            <div class="ml-card">
+              <div class="ml-icon">🎯</div>
+              <div class="ml-label">CO Classification</div>
+              <div id="ml-co-class" class="ml-value">—</div>
+              <div class="ml-sub">Random Forest · Lab Model</div>
+            </div>
+            <div class="ml-card">
+              <div class="ml-icon">📈</div>
+              <div class="ml-label">Health Risk Score</div>
+              <div id="ml-benzene" class="ml-value">—</div>
+              <div class="ml-sub">Linear Regression · Lab Model</div>
+            </div>
+            <div class="ml-card">
+              <div class="ml-icon">⏰</div>
+              <div class="ml-label">Rush Hour</div>
+              <div id="ml-rush" class="ml-value">—</div>
+              <div class="ml-sub">Engineered Feature · Lab</div>
+            </div>
+            <div class="ml-card">
+              <div class="ml-icon">🔵</div>
+              <div class="ml-label">Pollution State</div>
+              <div id="ml-cluster" class="ml-value">—</div>
+              <div class="ml-sub">K-Means · Lab Model (K=4)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="api-credit">📡 Data: <a href="https://open-meteo.com" target="_blank">Open-Meteo Air Quality API</a> (free, no key) · Updates hourly</div>
+      </div>
+      </div> <!-- close summary-content-wrapper -->
+    </div>
+  </section>
+  
+
+
+
+  <!-- LABS DIRECTORY -->
+  <section id="labs-directory" class="section alt-bg">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="tag" style="--tag-clr:#a78bfa">Lab Work</span>
+        <h2>Lab Work</h2>
+        <p>Interactive directory of all completed lab assignments.</p>
+      </div>
+      
+      <div class="accordion-wrapper reveal">
+        <!-- LAB 1 -->
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <h3>Lab 1: Exploratory Data & ML Pipeline</h3>
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            
+            <!-- LAB 1 PART 1 -->
+            <div class="sub-accordion-item">
+              <div class="sub-accordion-header">
+                <h4>Part 1: Data Engineering & SQLite</h4>
+                <span class="accordion-icon">+</span>
+              </div>
+              <div class="sub-accordion-content" style="padding-top: 1rem;">
+                <div class="code-viewer-container">
+                  <div class="cv-tabs">
+                    <button class="cv-tab active" data-target="e1">Parse CSV</button>
+                    <button class="cv-tab" data-target="e2">Write Binary</button>
+                    <button class="cv-tab" data-target="e3">Regex Ops</button>
+                    <button class="cv-tab" data-target="e4">SQLite CRUD</button>
+                    <button class="cv-tab" data-target="e5">MongoDB Ops</button>
+                    <button class="cv-tab" data-target="e6">NumPy Arrays</button>
+                    <button class="cv-tab" data-target="e7">Pandas Analysis</button>
+                  </div>
+                  <div class="cv-toggles-wrapper">
+                    <div class="cv-toggles">
+                      <button class="cv-toggle active" data-mode="code">Source Code</button>
+                      <button class="cv-toggle" data-mode="output">Terminal Output</button>
+                    </div>
+                  </div>
+                  <div class="cv-body">
+                    <pre><code id="cv-code-block" class="language-python"></code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- LAB 1 PART 2 -->
+            <div class="sub-accordion-item">
+              <div class="sub-accordion-header">
+                <h4>Part 2: Machine Learning Models</h4>
+                <span class="accordion-icon">+</span>
+              </div>
+              <div class="sub-accordion-content">
+                <div class="embedded-sections">
+  
+  <!-- ML NAV CARDS -->
+  <div class="ml-nav-cards">
+    <div class="ml-nav-card active" data-target="ml-preprocessing">
+      <div class="ml-nav-card-icon">🧹</div>
+      <div class="ml-nav-card-title">Preprocessing</div>
+    </div>
+    <div class="ml-nav-card" data-target="ml-regression">
+      <div class="ml-nav-card-icon">📈</div>
+      <div class="ml-nav-card-title">Regression</div>
+    </div>
+    <div class="ml-nav-card" data-target="ml-classification">
+      <div class="ml-nav-card-icon">🎯</div>
+      <div class="ml-nav-card-title">Classification</div>
+    </div>
+    <div class="ml-nav-card" data-target="ml-clustering">
+      <div class="ml-nav-card-icon">🔵</div>
+      <div class="ml-nav-card-title">Clustering</div>
+    </div>
+    <div class="ml-nav-card" data-target="ml-nlp">
+      <div class="ml-nav-card-icon">🔤</div>
+      <div class="ml-nav-card-title">NLP</div>
+    </div>
+  </div>
+  
+  <div class="ml-content-viewer">
+
+
+
+  <!-- PREPROCESSING / EDA -->
+  <div id="ml-preprocessing" class="ml-content-pane active">
+
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="tag" style="--tag-clr:#38bdf8">Module 1</span>
+        <h2>Exploratory Data Analysis</h2>
+        <p>Data was loaded, cleaned, missing values imputed, and a rush-hour feature engineered from timestamps.</p>
+      </div>
+      <div class="info-cards reveal">
+        <div class="info-card">
+          <div class="ic-icon">⚠️</div>
+          <div class="ic-text"><strong>Sentinel Value</strong><br/>–200 used as missing marker, replaced with NaN then imputed with column means.</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon">🕐</div>
+          <div class="ic-text"><strong>Rush-Hour Feature</strong><br/>Binary dummy: 1 if time is 08–10h or 17–19h, capturing commute pollution spikes.</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon">💾</div>
+          <div class="ic-text"><strong>Output</strong><br/>cleaned_airquality.csv — the single source of truth for all downstream modules.</div>
+        </div>
+      </div>
+      <div class="viz-grid reveal">
+        <div class="viz-card wide">
+          <div class="viz-label">Sensor Correlation Heatmap</div>
+          <img src="results/correlation_heatmap.png" alt="Correlation Heatmap" loading="lazy" />
+          <p class="viz-caption">Strong positive correlation between CO, Benzene and NMHC sensors. Temperature shows expected seasonal behavior.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div class="viz-card">
+            <div class="viz-label">Temperature Distribution</div>
+            <img src="results/temp_dist.png" alt="Temperature Distribution" loading="lazy" />
+            <p class="viz-caption">Temperature follows a roughly bimodal distribution reflecting seasonal variation across the dataset's one-year span.</p>
+          </div>
+          <div class="viz-card">
+            <div class="viz-label">CO vs NOx Scatter</div>
+            <img src="results/co_vs_nox.png" alt="CO vs NOx" loading="lazy" />
+            <p class="viz-caption">Positive trend between CO and NOx confirms both are driven by traffic combustion sources.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+
+  <!-- REGRESSION -->
+  <div id="ml-regression" class="ml-content-pane ">
+
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="tag" style="--tag-clr:#34d399">Module 2</span>
+        <h2>Regression Analysis</h2>
+        <p>Predicting benzene concentration (C6H6) using sensor readings via Linear Regression.</p>
+      </div>
+      <div class="two-col reveal">
+        <div class="col-text">
+          <h3>Model Setup</h3>
+          <p>Linear Regression trained on 80% of cleaned data, evaluated on the remaining 20%.</p>
+          <div class="feature-list">
+            <div class="fl-label">Features Used</div>
+            <div class="fl-chips">
+              <span>PT08.S2(NMHC)</span>
+              <span>NOx(GT)</span>
+              <span>NO2(GT)</span>
+              <span>T</span>
+              <span>RH</span>
+              <span>AH</span>
+            </div>
+          </div>
+          <div class="feature-list">
+            <div class="fl-label">Target</div>
+            <div class="fl-chips target">
+              <span>C6H6(GT) — Benzene</span>
+            </div>
+          </div>
+          <div class="metrics-row">
+            <div class="metric-badge green">
+              <span class="mb-val">R²</span>
+              <span class="mb-label">High Fit</span>
+            </div>
+            <div class="metric-badge blue">
+              <span class="mb-val">MSE</span>
+              <span class="mb-label">Low Error</span>
+            </div>
+            <div class="metric-badge purple">
+              <span class="mb-val">80/20</span>
+              <span class="mb-label">Train/Test Split</span>
+            </div>
+          </div>
+          <p class="insight-box">💡 The NMHC sensor is the strongest predictor of benzene — both are volatile organic compounds emitted together by vehicle exhaust.</p>
+        </div>
+        <div class="col-viz">
+          <div class="viz-card">
+            <div class="viz-label">Actual vs Predicted Benzene</div>
+            <img src="results/regression_actual_vs_pred.png" alt="Regression Actual vs Predicted" loading="lazy" />
+            <p class="viz-caption">Points close to the red diagonal indicate accurate predictions. The model captures the trend well with some variance at higher concentrations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+
+  <!-- CLASSIFICATION -->
+  <div id="ml-classification" class="ml-content-pane ">
+
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="tag" style="--tag-clr:#fb923c">Module 3</span>
+        <h2>Classification</h2>
+        <p>Detecting high CO pollution events using binary classification — Logistic Regression vs Random Forest.</p>
+      </div>
+      <div class="model-compare reveal">
+        <div class="model-card">
+          <div class="mc-header lr">Logistic Regression</div>
+          <ul class="mc-points">
+            <li>Linear decision boundary</li>
+            <li>Fast training, interpretable</li>
+            <li>Good baseline classifier</li>
+          </ul>
+        </div>
+        <div class="mc-vs">VS</div>
+        <div class="model-card winner">
+          <div class="mc-badge">🏆 Winner</div>
+          <div class="mc-header rf">Random Forest</div>
+          <ul class="mc-points">
+            <li>100 decision trees ensemble</li>
+            <li>Handles non-linearity well</li>
+            <li>Provides feature importances</li>
+          </ul>
+        </div>
+      </div>
+      <div class="viz-grid reveal">
+        <div class="viz-card">
+          <div class="viz-label">Feature Importance (Random Forest)</div>
+          <img src="results/classification_feature_importance.png" alt="Feature Importance" loading="lazy" />
+          <p class="viz-caption">PT08.S1(CO) — the dedicated CO sensor — is the top predictor, followed by NO2, validating sensor reliability.</p>
+        </div>
+        <div class="viz-card">
+          <div class="viz-label">Confusion Matrix (Random Forest)</div>
+          <img src="results/classification_confusion_matrix.png" alt="Confusion Matrix" loading="lazy" />
+          <p class="viz-caption">The confusion matrix shows high true-positive and true-negative rates, indicating the model accurately detects high CO events.</p>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+
+  <!-- CLUSTERING -->
+  <div id="ml-clustering" class="ml-content-pane ">
+
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="tag" style="--tag-clr:#a78bfa">Module 4</span>
+        <h2>Clustering Analysis</h2>
+        <p>K-Means clustering reveals 4 natural pollution states in the data, visualized via PCA dimensionality reduction.</p>
+      </div>
+      <div class="cluster-states reveal">
+        <div class="cs-card" style="--cs-clr:#34d399"><div class="cs-num">0</div><div class="cs-label">Clean Air</div></div>
+        <div class="cs-card" style="--cs-clr:#38bdf8"><div class="cs-num">1</div><div class="cs-label">Moderate</div></div>
+        <div class="cs-card" style="--cs-clr:#fb923c"><div class="cs-num">2</div><div class="cs-label">High Pollution</div></div>
+        <div class="cs-card" style="--cs-clr:#f87171"><div class="cs-num">3</div><div class="cs-label">Severe</div></div>
+      </div>
+      <div class="viz-grid reveal">
+        <div class="viz-card">
+          <div class="viz-label">Elbow Method — Optimal K</div>
+          <img src="results/clustering_elbow.png" alt="Elbow Method" loading="lazy" />
+          <p class="viz-caption">Inertia drops sharply up to K=4, after which gains diminish. K=4 selected to represent real-world pollution categories.</p>
+        </div>
+        <div class="viz-card">
+          <div class="viz-label">PCA Cluster Visualization (K=4)</div>
+          <img src="results/clustering_pca.png" alt="PCA Cluster Plot" loading="lazy" />
+          <p class="viz-caption">PCA reduces 7 sensor dimensions to 2 principal components. Four well-separated clusters confirm distinct pollution regimes in the dataset.</p>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+
+  <!-- NLP -->
+  <div id="ml-nlp" class="ml-content-pane ">
+
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="tag" style="--tag-clr:#facc15">Module 5</span>
+        <h2>NLP Analysis</h2>
+        <p>Natural Language Processing applied to textual features, revealing token frequency patterns across the dataset.</p>
+      </div>
+      <div class="two-col reveal">
+        <div class="col-text">
+          <h3>Token Frequency Analysis</h3>
+          <p>NLP techniques were applied to extract linguistic patterns from the dataset's text fields, identifying the most frequent tokens and their associations with air quality conditions.</p>
+          <div class="nlp-tags">
+            <span class="nlp-tag">Tokenization</span>
+            <span class="nlp-tag">Frequency Analysis</span>
+            <span class="nlp-tag">Pattern Recognition</span>
+            <span class="nlp-tag">Text Features</span>
+          </div>
+          <p class="insight-box">💡 Dominant tokens correspond to pollutant labels and time descriptors, suggesting strong temporal-linguistic patterns in air quality reporting.</p>
+        </div>
+        <div class="col-viz">
+          <div class="viz-card">
+            <div class="viz-label">Token Frequency Distribution</div>
+            <img src="results/nlp_token_freq.png" alt="NLP Token Frequency" loading="lazy" />
+            <p class="viz-caption">Top tokens by frequency. Pollution-related terms dominate the frequency distribution.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+
+  <!-- KEY FINDINGS -->
+  <div class="summary-btn-wrapper" style="text-align: center; margin: 3rem 0;">
+    <button id="toggle-summary-btn" class="summary-btn" style="background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 16px 36px; border-radius: 30px; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.15);" onmouseover="this.style.background='rgba(56, 189, 248, 0.2)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='rgba(56, 189, 248, 0.1)'; this.style.transform='translateY(0)';">Reveal Project Summary</button>
+  </div>
+
+  <div id="summary-content-wrapper" style="overflow: hidden; max-height: 0; opacity: 0; transition: max-height 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease-in-out;">
+    <section id="findings" class="section" style="padding-top: 1rem;">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="tag" style="--tag-clr:#f472b6">Summary</span>
+          <h2>Key Findings</h2>
+          <p>Five modules. One dataset. Dozens of insights.</p>
+        </div>
+        <div class="findings-grid reveal">
+          <div class="finding-card" style="--fc:#38bdf8">
+            <div class="fc-icon">🔗</div>
+            <h4>Strong Sensor Correlations</h4>
+            <p>CO, Benzene, and NMHC sensors are highly correlated, confirming shared combustion emission sources from traffic.</p>
+          </div>
+          <div class="finding-card" style="--fc:#34d399">
+            <div class="fc-icon">📈</div>
+            <h4>Benzene Predictable</h4>
+            <p>Linear Regression achieves strong R² score using NMHC and NOx as primary predictors of benzene concentration.</p>
+          </div>
+          <div class="finding-card" style="--fc:#fb923c">
+            <div class="fc-icon">🎯</div>
+            <h4>High CO Detectable</h4>
+            <p>Random Forest outperforms Logistic Regression in classifying high-CO events, with PT08.S1 being the critical feature.</p>
+          </div>
+          <div class="finding-card" style="--fc:#a78bfa">
+            <div class="fc-icon">🌡️</div>
+            <h4>4 Pollution Regimes</h4>
+            <p>K-Means clustering reveals 4 distinct pollution states ranging from clean to severe, validated by PCA visualization.</p>
+          </div>
+          <div class="finding-card" style="--fc:#facc15">
+            <div class="fc-icon">⏰</div>
+            <h4>Rush Hours Matter</h4>
+            <p>Engineered rush-hour feature captures 08–10h and 17–19h peaks where pollutant concentrations spike significantly.</p>
+          </div>
+          <div class="finding-card" style="--fc:#f472b6">
+            <div class="fc-icon">🤖</div>
+            <h4>ML-Ready Dataset</h4>
+            <p>After preprocessing, the cleaned dataset with imputed means and engineered features proves suitable for all ML tasks.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- LAB 2 -->
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <h3>Lab 2: Big Data Spark Pipeline</h3>
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content" style="padding-top: 1rem;">
+            <!-- LAB 2 PIPELINE FLOW -->
+            <div class="pipeline-flow lab2-pipeline reveal" style="margin-top: 1rem; overflow-x: auto; padding-bottom: 10px;">
+              <div class="pipe-step l2-step active" data-target="l2-hdfs" style="--clr:#a78bfa; cursor: pointer;">
+                <div class="pipe-icon">🐘</div>
+                <div class="pipe-label">HDFS Setup</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-step l2-step" data-target="l2-pre" style="--clr:#38bdf8; cursor: pointer;">
+                <div class="pipe-icon">🧹</div>
+                <div class="pipe-label">Preprocess</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-step l2-step" data-target="l2-train" style="--clr:#34d399; cursor: pointer;">
+                <div class="pipe-icon">🧠</div>
+                <div class="pipe-label">Train ML</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-step l2-step" data-target="l2-pred" style="--clr:#fb923c; cursor: pointer;">
+                <div class="pipe-icon">🔮</div>
+                <div class="pipe-label">Predict</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-step l2-step" data-target="l2-report" style="--clr:#f472b6; cursor: pointer;">
+                <div class="pipe-icon">📊</div>
+                <div class="pipe-label">Report</div>
+              </div>
+            </div>
+
+            <!-- LAB 2 EXPLANATION -->
+            <div id="l2-explanation" class="reveal visible" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 15px 25px; border-radius: 8px; margin-top: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; font-style: italic; transition: opacity 0.3s ease;"></div>
+
+
+            <!-- LAB 2 CODE VIEWER -->
+            <div class="code-viewer-container" style="margin-top: 2rem;">
+              <div class="cv-toggles-wrapper">
+                <div class="cv-toggles">
+                  <button class="cv-toggle l2-toggle active" data-mode="code">Source Code</button>
+                  <button class="cv-toggle l2-toggle" data-mode="output">Execution Output</button>
+                </div>
+              </div>
+              <div class="cv-body" style="min-height: 400px; max-height: 500px; overflow-y: auto;">
+                <pre><code id="l2-cv-code-block" class="language-bash"></code></pre>
+              </div>
+            </div>
+
+            <!-- CLUSTER SIMULATION TOGGLE (Moved to End) -->
+            <div style="text-align: center; margin-top: 2rem;">
+              <button id="l2-sim-btn" class="hero-cta" style="font-size: 0.85rem; padding: 0.6rem 1.2rem; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 99px; cursor: pointer; transition: all 0.3s ease;">
+                🚀 Run Cluster Visualization
+              </button>
+            </div>
+
+            <!-- SPARK CLUSTER SIMULATION (Combined Narrative) -->
+            <div id="l2-cluster-sim" class="reveal" style="display: none; margin-top: 2rem; position: relative; min-height: 400px; background: rgba(0,0,0,0.03); border-radius: 20px; overflow: hidden; border: 1px solid var(--border);">
+              <!-- Explanation Bar -->
+              <div id="sim-status-bar" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 80%; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border); z-index: 20; text-align: center; font-size: 0.85rem; color: var(--text); font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                Waiting to start Spark session...
+              </div>
+
+              <!-- Master Node -->
+              <div class="sim-node master" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 10;">
+                <div class="node-icon">🖥️</div>
+                <div class="node-label">Master</div>
+              </div>
+              
+              <!-- Worker Nodes -->
+              <div class="sim-node worker w1"><div class="node-icon">⚙️</div><div class="node-label">Executor 1</div></div>
+              <div class="sim-node worker w2"><div class="node-icon">⚙️</div><div class="node-label">Executor 2</div></div>
+              <div class="sim-node worker w3"><div class="node-icon">⚙️</div><div class="node-label">Executor 3</div></div>
+
+              <!-- Particle Container -->
+              <div id="sim-particles"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      </div> <!-- close summary-content-wrapper -->
+    </div>
+  </section>
+
+  <!-- THEORY ASSIGNMENTS -->
+  <section id="theory" class="section alt-bg">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="tag" style="--tag-clr:#a78bfa">Conceptual</span>
+        <h2>Theory Assignments</h2>
+        <p>Deep dives into the mathematical foundations and algorithmic architectures of distributed data systems.</p>
+      </div>
+
+      <div class="accordion-wrapper reveal">
+        <!-- Assignment 1 -->
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <h3>Assignment 1: Distributed Data Analytics &amp; Applications</h3>
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <div class="theory-item-grid">
+              <div class="theory-text">
+                <p class="tc-abstract">This investigation explores the architectural paradigm shift from centralized to decentralized data processing. We analyze how massive datasets are partitioned using techniques like Sharding and Replication to ensure both performance and fault tolerance in high-throughput environments.</p>
+                <div class="theory-details">
+                  <h4>Key Focus Areas:</h4>
+                  <ul>
+                    <li><strong>Data Partitioning:</strong> Horizontal scaling strategies for elastic data growth.</li>
+                    <li><strong>Parallel Processing:</strong> Leveraging MapReduce and Spark core concepts.</li>
+                    <li><strong>Consistency Models:</strong> Balancing the CAP theorem in distributed systems.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="theory-visual-col">
+                <img src="results/distributed_data_viz.png" alt="Distributed Data Analytics Visualization" class="theory-img" />
+              </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+              <a href="Theory Assignment/Assignment1/Distributed_data_analytics.pdf" target="_blank" class="hero-cta" style="font-size: 0.85rem; padding: 0.6rem 1.2rem; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 99px; cursor: pointer; transition: all 0.3s ease;">
+                See Full Article
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assignment 2 -->
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <h3>Assignment 2: Algorithms in Distributed Analytics</h3>
+            <span class="accordion-icon">+</span>
+          </div>
+          <div class="accordion-content">
+            <div class="theory-item-grid">
+              <div class="theory-text">
+                <p class="tc-abstract">A deep dive into advanced synchronization algorithms and communication-efficient learning. This work proposes the <strong>AGCEA</strong> (Adaptive Gradient-Compressed Edge Analytics) framework, designed to optimize bandwidth while maintaining high model accuracy in edge-computing scenarios.</p>
+                <div class="theory-details">
+                  <h4>Core Contributions:</h4>
+                  <ul>
+                    <li><strong>AGCEA Framework:</strong> Novel gradient compression for federated nodes.</li>
+                    <li><strong>Convergence Analysis:</strong> Mathematical proofs for decentralized stochastic optimization.</li>
+                    <li><strong>Communication Efficiency:</strong> Minimizing round-trips in high-latency networks.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="theory-visual-col">
+                <img src="results/federated_learning_viz.png" alt="Federated Learning Visualization" class="theory-img" />
+              </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+              <a href="Theory Assignment/Assignment2/assignment2.pdf" target="_blank" class="hero-cta" style="font-size: 0.85rem; padding: 0.6rem 1.2rem; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 99px; cursor: pointer; transition: all 0.3s ease;">
+                See Full Article
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">AirQuality<span class="accent">·AI</span></div>
+      <p>Distributed Data Management · UCI Air Quality Dataset</p>
+      <div class="footer-modules">
+        <span>Preprocessing</span>
+        <span>Regression</span>
+        <span>Classification</span>
+        <span>Clustering</span>
+        <span>NLP</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
